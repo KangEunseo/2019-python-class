@@ -17,23 +17,15 @@ class tictactoe:
 
     def check_winner(self):
         check = self.current_turn
-        if self.get(0, 0) == self.get(0, 1) == self.get(0, 2) == check:
-            return check
-        if self.get(1, 0) == self.get(1, 1) == self.get(1, 2) == check:
-            return check
-        if self.get(2, 0) == self.get(2, 1) == self.get(2, 2) == check:
-            return check
+        for i in range(3):
+            if self.get(i, 0) == self.get(i, 1) == self.get(i, 2) == check:
+                return check
+            if self.get(0, i) == self.get(1, i) == self.get(2, i) == check:
+                return check
 
-        if self.get(0, 0) == self.get(1, 0) == self.get(2, 0) == check:
-            return check
         if self.get(0, 1) == self.get(1, 1) == self.get(2, 1) == check:
             return check
         if self.get(0, 2) == self.get(1, 2) == self.get(2, 2) == check:
-            return check
-
-        if self.get(0, 0) == self.get(1, 1) == self.get(2, 2) == check:
-            return check
-        if self.get(0, 2) == self.get(1, 1) == self.get(2, 0) == check:
             return check
 
         if not "," in self.board:
