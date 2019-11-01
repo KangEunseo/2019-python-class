@@ -11,24 +11,27 @@ class tictactoe:
             #     self.current_turn = "o"
             self.current_turn = "o" if self.current_turn == "x" else "x"
             self.board[(row * 3) + col] = self.current_turn
+        else:
+            print("빈 칸이 아닙니다. 다른 칸에 입력해주세요.")
 
     def get(self, row, col):
-        return self.board((row * 3) + col)
+        return self.board[(row * 3) + col]
 
     def check_winner(self):
         check = self.current_turn
         for i in range(3):
             if self.get(i, 0) == self.get(i, 1) == self.get(i, 2) == check:
                 return check
+
             if self.get(0, i) == self.get(1, i) == self.get(2, i) == check:
                 return check
 
-        if self.get(0, 1) == self.get(1, 1) == self.get(2, 1) == check:
+        if self.get(0, 0) == self.get(1, 1) == self.get(2, 2) == check:
             return check
-        if self.get(0, 2) == self.get(1, 2) == self.get(2, 2) == check:
+        if self.get(0, 2) == self.get(1, 1) == self.get(2, 0) == check:
             return check
 
-        if not "," in self.board:
+        if not "." in self.board:
             return "d"
 
     def __str__(self):
@@ -42,10 +45,10 @@ class tictactoe:
 if __name__ == '__main__':
     ttt = tictactoe()
     print(ttt)
+    ttt.set(0, 0)
+    ttt.set(0, 1)
+    ttt.set(1, 0)
     ttt.set(1, 1)
-    ttt.set(1, 2)
-    ttt.set(1, 3)
-    ttt.set(2, 1)
+    ttt.set(2, 0)
     ttt.set(2, 2)
-    ttt.set(0, 2)
     print(ttt)
