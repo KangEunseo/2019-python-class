@@ -1,6 +1,7 @@
 from tictactoe import tictactoe
 import math
 import tkinter
+from tkinter import messagebox
 
 class GameManager:
     def __init__(self):
@@ -57,7 +58,16 @@ class GameManager_GUI:
         row = math.floor(event.y / self.TILE_SIZE)
         col = math.floor(event.x / self.TILE_SIZE)
         self.ttt.set(row, col)
-        #self.ttt.check_winner()
+        self.draw_board()
+        if self.ttt.check_winner() == "o":
+            messagebox.showinfo("게임 오버", "o win!!!")
+            self.root.quit()
+        elif self.ttt.check_winner() == "x":
+            messagebox.showinfo("게임 오버", "x win!!!")
+            self.root.quit()
+        elif self.ttt.check_winner() == "d":
+            messagebox.showinfo("게임 오버", "무승부")
+            self.root.quit()
 
     def draw_board(self):
         #clear
@@ -84,6 +94,4 @@ class GameManager_GUI:
 
 if __name__ == '__main__':
     gm = GameManager_GUI()
-    gm.ttt.set(1, 1)
-    gm.draw_board()
     gm.play()
