@@ -23,70 +23,70 @@ db = 'python'
 # );
 
 class SQL:
-    def __init__(self):
+    def __init__(self): #db 커넥트
         self.conn = pymysql.connect(host=host, user=user, password=password, db=db, charset='utf8')
         self.curs = self.conn.cursor(pymysql.cursors.DictCursor)
 
-    def selectp(self, pnum):
+    def selectp(self, pnum): #member 테이블에서 pname 받아오기
         sql = "SELECT pname FROM member WHERE pnum=%s"
         self.curs.execute(sql, pnum)
 
         pname = self.curs.fetchone()
         return pname['pname']
 
-    def selectpnum(self):
+    def selectpnum(self): #member 테이블에서 튜플 수 받아오기
         sql = "SELECT COUNT(*) FROM member"
         self.curs.execute(sql)
 
         num = self.curs.fetchone()
         return num['COUNT(*)']
 
-    def insertp(self, pname, tel, address):
+    def insertp(self, pname, tel, address): #member 테이블 값 삽입하기
         sql = """INSERT INTO member(pnum, pname, tel, address) VALUES (0, %s, %s, %s)"""
         self.curs.execute(sql, (pname, tel, address))
         self.conn.commit()
 
-    def inserta(self, akind, astate, agender, amail):
+    def inserta(self, akind, astate, agender, amail): #animal 테이블 값 삽입하기
         sql = """INSERT INTO animal(anum, akind, astate, agender, amail) VALUES (0, %s, %s, %s, %s)"""
         self.curs.execute(sql, (akind, astate, agender, amail))
         self.conn.commit()
 
-    def selecta(self):
+    def selecta(self): #animal 테이블에서 전체 값 받아오기
         sql = "SELECT * FROM animal"
         self.curs.execute(sql)
 
         alist = self.curs.fetchall()
         return alist
 
-    def selectakind(self, anum):
+    def selectakind(self, anum): #animal 테이블에서 akind 받아오기
         sql = "SELECT akind FROM animal WHERE anum=%s"
         self.curs.execute(sql, anum)
 
         akind = self.curs.fetchone()
         return akind['akind']
 
-    def selectastate(self, anum):
+    def selectastate(self, anum): #animal 테이블에서 astate 받아오기
         sql = "SELECT astate FROM animal WHERE anum=%s"
         self.curs.execute(sql, anum)
 
         astate = self.curs.fetchone()
         return astate['astate']
 
-    def selectagender(self, anum):
+    def selectagender(self, anum): #animal 테이블에서 agender 받아오기
         sql = "SELECT agender FROM animal WHERE anum=%s"
         self.curs.execute(sql, anum)
 
         agender = self.curs.fetchone()
         return agender['agender']
 
-    def selectamail(self, anum):
+    def selectamail(self, anum): #animal 테이블에서 amail 받아오기
         sql = "SELECT amail FROM animal WHERE anum=%s"
         self.curs.execute(sql, anum)
 
         amail = self.curs.fetchone()
         return amail['amail']
 
-    def sendmail(self, pmail, contact):
+    def sendmail(self, pmail, contact): #메일 보내기
         s = smtplib.SMTP('smtp.gmail.com', 587)          # 세션 생성
         s.starttls()                                     # TLS 보안 시작
         s.login('jbogry7@gmail.com', 'qtylfcuyakyehdij') # 로그인 인증

@@ -5,13 +5,13 @@ import re
 from GuiMysqlClass import SQL
 
 class programManager():
-    window = tkinter.Tk()
+    window = tkinter.Tk() #GUI 창 생성
 
-    window.title("Pit a Pet")
-    window.geometry("700x500")
-    window.resizable(False, False)
+    window.title("Pit a Pet") #GUI title 지정
+    window.geometry("700x500") #GUI 창 크기 지정
+    window.resizable(False, False) #GUI 창 크기 못 바꾸게 하기
 
-    def __init__(self):
+    def __init__(self): #최초 실행 창
         self.clear()
 
         img = tkinter.PhotoImage(file="img/logo.png")
@@ -31,7 +31,7 @@ class programManager():
 
         self.window.mainloop()
 
-    def signInf(self):
+    def signInf(self): #로그인 폼
         self.clear()
 
         font_ = tkinter.font.Font(family="맑은 고딕", size="15", weight="bold")
@@ -55,7 +55,7 @@ class programManager():
                                    text="회원가입", bg="white", font=font, activebackground="ivory")
         signUpBtn.place(x=370, y=300)
 
-    def signIn(self):
+    def signIn(self): #로그인
         sql = SQL()
 
         if (inpnum.get().isdigit() == False):
@@ -67,9 +67,9 @@ class programManager():
                 tkinter.Label(text="이름을 입력하세요!", fg="red", width=40).place(x=260, y=230)
             else:
                 global pname
-                pname = sql.selectp(int(inpnum.get()))
+                pname = sql.selectp(int(inpnum.get())) #입력한 번호에 해당하는 튜플의 이름 DB에서 받아오기
 
-                if pname == inpname.get():
+                if pname == inpname.get(): #DB에 있는 이름이랑 입력한 이름이 같은지 확인
                     self.clear()
                     tkinter.Label(text="로그인이 완료되었습니다.", font=font).place(x=260, y=200)
                     tkinter.Button(self.window, width=10, borderwidth=0, cursor="heart", command=self.main,
@@ -80,7 +80,7 @@ class programManager():
                     tkinter.Button(self.window, width=10, borderwidth=0, cursor="heart", command=self.signInf,
                                    text="로그인", bg="white", font=font, activebackground="ivory").place(x=305, y=240)
 
-    def signUpf(self):
+    def signUpf(self): #회원가입
         self.clear()
 
         font_ = tkinter.font.Font(family="맑은 고딕", size="15", weight="bold")
@@ -109,18 +109,18 @@ class programManager():
                                    text="회원가입", bg="pink", font=font, activebackground="ivory")
         signUpBtn.place(x=370, y=300)
 
-    def signUp(self):
+    def signUp(self):  #회원가입
         if(pname.get() == None or pname.get() == ''):
             tkinter.Label(text="이름을 입력하세요!", fg="red", width=20).place(x=330, y=169)
         else:
             sql = SQL()
-            sql.insertp(str(pname.get()), str(tel.get()), str(address.get()))
+            sql.insertp(str(pname.get()), str(tel.get()), str(address.get())) #입력한 내용들 member DB에 넣기
             self.clear()
             tkinter.Label(text="회원가입이 완료되었습니다. 회원번호는 "+str(sql.selectpnum())+"입니다.", font=font).place(x=180, y=200)
             tkinter.Button(self.window, width=10, borderwidth=0, cursor="heart", command=self.signInf,
                             text="로그인", bg="white", font=font, activebackground="ivory").place(x=305, y=240)
 
-    def main(self):
+    def main(self): #로그인 시 실행되는 메인 화면
         self.clear()
 
         tkinter.Button(self.window, width=7, borderwidth=0, cursor="heart", command=self.heartP,
@@ -130,13 +130,13 @@ class programManager():
         logoutBtn = tkinter.Button(self.window, width=10, borderwidth=0, cursor="heart", command=self.__init__,
                                    text="로그아웃", bg="white", font=font, activebackground="ivory")
         logoutBtn.place(x=580, y=30)
-
+        
         frame = tkinter.Frame(self.window)
         scrollbar = tkinter.Scrollbar(frame)
         scrollbar.pack(side="right", fill="y")
         self.listbox = tkinter.Listbox(frame, yscrollcommand=scrollbar.set, width=55, font=font)
         sql = SQL()
-        list = sql.selecta()
+        list = sql.selecta() #animal 테이블에서 값 받아오기
         count = 0
         for i in list:
             self.listbox.insert(count, (str(i['anum'])+" - "+str(i['akind'])+" / "+str(i['astate'])+
@@ -198,11 +198,11 @@ class programManager():
             gender = self.genderChecked()
             state = self.stateChecked()
             sql = SQL()
-            sql.inserta(str(akind.get()), state, gender, str(amail.get()))
+            sql.inserta(str(akind.get()), state, gender, str(amail.get())) #입력한 내용 animal DB에 넣기
 
             self.main()
 
-    def read(self, none): #게시물 보기 - 입양 신청
+    def read(self, none): #게시물 보기 -> 입양 신청
         value = str(self.listbox.curselection())
         number = re.findall("\d+", value)[0]
         self.clear()
@@ -249,12 +249,12 @@ class programManager():
         # sql = SQL()
         # sql.sendmail(self.pmail, str(contact.get()))
 
-    def clear(self):
+    def clear(self): #GUI 창에 있는 위젯들 제거
         mylist = self.window.place_slaves()
         for i in mylist:
             i.destroy()
 
-    def stateChecked(self):
+    def stateChecked(self): #radio버튼 값 받아오기
         astate = ""
         if self.radVar.get() == 1:
             astate = "임시보호"
@@ -265,7 +265,7 @@ class programManager():
 
         return astate
 
-    def genderChecked(self):
+    def genderChecked(self): #radio버튼 값 받아오기
         agender = ""
         if self.radVar.get() == 1:
             agender = "암컷"
