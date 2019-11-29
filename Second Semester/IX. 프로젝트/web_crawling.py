@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup       #html 구조적으로 변환하기
 from urllib.request import urlopen  #url에 해당하는 html 가져오기
 
 if __name__ == '__main__':
-    data = urlopen("https://comic.naver.com/webtoon/list.nhn?titleId=651673&weekday=sat")
-    soup = BeautifulSoup(data, "lxml")
+    with urlopen("https://comic.naver.com/webtoon/list.nhn?titleId=651673&weekday=sat") as data:
+        soup = BeautifulSoup(data, "lxml")
 
     cartoon_titles = soup.find_all("td", attrs={'class':'title'})   #<td class="title">
     html = "<html><head><meta charset='utf-8'></head><body>"
